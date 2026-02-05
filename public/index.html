@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FortranIsRight - Fortran Code Validator</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1><span class="logo-bracket">[</span> FortranIsRight <span class="logo-bracket">]</span></h1>
+      <p class="tagline">Rule-based Fortran code validator &mdash; no ML, just the manual.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="controls">
+      <div class="control-group">
+        <label for="form-select">Source form:</label>
+        <select id="form-select">
+          <option value="auto">Auto-detect</option>
+          <option value="fixed">Fixed-form (F77)</option>
+          <option value="free">Free-form (F90+)</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="standard-select">Standard:</label>
+        <select id="standard-select">
+          <option value="F77">FORTRAN 77</option>
+          <option value="F90">Fortran 90</option>
+          <option value="F95">Fortran 95</option>
+        </select>
+      </div>
+      <button id="validate-btn" type="button">Validate</button>
+      <button id="clear-btn" type="button" class="secondary">Clear</button>
+      <button id="sample-btn" type="button" class="secondary">Load Sample</button>
+      <button id="rules-btn" type="button" class="secondary">View Rules</button>
+    </div>
+
+    <div class="editor-panel">
+      <div class="panel-header">
+        <span>Fortran Source Code</span>
+        <span class="line-info" id="line-info">Line 1, Col 1</span>
+      </div>
+      <div class="editor-wrapper">
+        <div class="line-numbers" id="line-numbers"></div>
+        <textarea id="editor" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"
+          placeholder="Paste your Fortran code here, or click 'Load Sample' to try an example..."></textarea>
+      </div>
+      <div class="col-ruler" id="col-ruler">
+        <span class="ruler-mark" style="left: calc(6ch + 2px)">6</span>
+        <span class="ruler-mark" style="left: calc(7ch + 2px)">7</span>
+        <span class="ruler-mark" style="left: calc(72ch + 2px)">72</span>
+      </div>
+    </div>
+
+    <div class="results-panel" id="results-panel">
+      <div class="panel-header">
+        <span>Validation Results</span>
+        <div class="summary" id="summary"></div>
+      </div>
+      <div class="results-filters" id="results-filters" style="display:none">
+        <label><input type="checkbox" value="error" checked> Errors</label>
+        <label><input type="checkbox" value="warning" checked> Warnings</label>
+        <label><input type="checkbox" value="info" checked> Info</label>
+        <label><input type="checkbox" value="style" checked> Style</label>
+      </div>
+      <div class="results-list" id="results-list">
+        <div class="empty-state">Click "Validate" to check your Fortran code.</div>
+      </div>
+    </div>
+
+    <div class="rules-panel" id="rules-panel" style="display:none">
+      <div class="panel-header">
+        <span>Available Rules</span>
+        <button id="rules-close-btn" class="close-btn">&times;</button>
+      </div>
+      <div class="rules-list" id="rules-list"></div>
+    </div>
+  </main>
+
+  <footer>
+    <p>FortranIsRight &mdash; Deterministic validation based on ANSI X3.9-1978 (FORTRAN 77) and ISO/IEC 1539:1991 (Fortran 90) standards.</p>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

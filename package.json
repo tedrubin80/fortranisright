@@ -1,0 +1,13 @@
+{
+  "name": "fortranisright",
+  "version": "1.0.0",
+  "description": "Rule-based Fortran code structure validator — no machine learning, just the manual",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test src/**/*.test.js"
+  },
+  "keywords": ["fortran", "validator", "linter", "static-analysis", "fortran77", "fortran90"],
+  "license": "MIT"
+}
