@@ -3,20 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FortranIsRight - Fortran Code Validator</title>
+  <title>FortranIsRight - Fortran &amp; Pascal Code Validator</title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <header>
     <div class="header-content">
       <h1><span class="logo-bracket">[</span> FortranIsRight <span class="logo-bracket">]</span></h1>
-      <p class="tagline">Rule-based Fortran code validator &mdash; no ML, just the manual.</p>
+      <p class="tagline">Rule-based code validator &amp; Pascal emulator &mdash; no ML, just the manual.</p>
     </div>
+    <nav class="lang-tabs">
+      <button class="lang-tab active" data-lang="fortran">Fortran</button>
+      <button class="lang-tab" data-lang="pascal">Pascal</button>
+    </nav>
   </header>
 
   <main>
     <div class="controls">
-      <div class="control-group">
+      <!-- Fortran-specific controls -->
+      <div class="control-group fortran-only">
         <label for="form-select">Source form:</label>
         <select id="form-select">
           <option value="auto">Auto-detect</option>
@@ -24,7 +29,7 @@
           <option value="free">Free-form (F90+)</option>
         </select>
       </div>
-      <div class="control-group">
+      <div class="control-group fortran-only">
         <label for="standard-select">Standard:</label>
         <select id="standard-select">
           <option value="F77">FORTRAN 77</option>
@@ -32,7 +37,16 @@
           <option value="F95">Fortran 95</option>
         </select>
       </div>
+      <!-- Pascal-specific controls -->
+      <div class="control-group pascal-only" style="display:none">
+        <label for="pascal-standard-select">Dialect:</label>
+        <select id="pascal-standard-select">
+          <option value="ISO7185">Standard Pascal (ISO 7185)</option>
+          <option value="turbo">Turbo Pascal</option>
+        </select>
+      </div>
       <button id="validate-btn" type="button">Validate</button>
+      <button id="execute-btn" type="button" class="execute-btn pascal-only" style="display:none">Run</button>
       <button id="clear-btn" type="button" class="secondary">Clear</button>
       <button id="sample-btn" type="button" class="secondary">Load Sample</button>
       <button id="rules-btn" type="button" class="secondary">View Rules</button>
@@ -40,19 +54,38 @@
 
     <div class="editor-panel">
       <div class="panel-header">
-        <span>Fortran Source Code</span>
+        <span id="editor-title">Fortran Source Code</span>
         <span class="line-info" id="line-info">Line 1, Col 1</span>
       </div>
       <div class="editor-wrapper">
         <div class="line-numbers" id="line-numbers"></div>
         <textarea id="editor" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"
-          placeholder="Paste your Fortran code here, or click 'Load Sample' to try an example..."></textarea>
+          placeholder="Paste your code here, or click 'Load Sample' to try an example..."></textarea>
       </div>
-      <div class="col-ruler" id="col-ruler">
+      <div class="col-ruler fortran-only" id="col-ruler">
         <span class="ruler-mark" style="left: calc(6ch + 2px)">6</span>
         <span class="ruler-mark" style="left: calc(7ch + 2px)">7</span>
         <span class="ruler-mark" style="left: calc(72ch + 2px)">72</span>
       </div>
+    </div>
+
+    <!-- Emulator I/O panel (Pascal only) -->
+    <div class="emulator-panel pascal-only" id="emulator-panel" style="display:none">
+      <div class="panel-header">
+        <span>Emulator</span>
+        <div class="emulator-meta" id="emulator-meta"></div>
+      </div>
+      <div class="emulator-io">
+        <div class="emulator-input-section">
+          <label for="emulator-input">Program Input (stdin):</label>
+          <textarea id="emulator-input" rows="3" placeholder="Enter input for READ/READLN here..."></textarea>
+        </div>
+        <div class="emulator-output-section">
+          <label>Program Output:</label>
+          <pre class="emulator-output" id="emulator-output"></pre>
+        </div>
+      </div>
+      <div class="emulator-errors" id="emulator-errors"></div>
     </div>
 
     <div class="results-panel" id="results-panel">
@@ -67,7 +100,7 @@
         <label><input type="checkbox" value="style" checked> Style</label>
       </div>
       <div class="results-list" id="results-list">
-        <div class="empty-state">Click "Validate" to check your Fortran code.</div>
+        <div class="empty-state">Click "Validate" to check your code.</div>
       </div>
     </div>
 
@@ -81,7 +114,7 @@
   </main>
 
   <footer>
-    <p>FortranIsRight &mdash; Deterministic validation based on ANSI X3.9-1978 (FORTRAN 77) and ISO/IEC 1539:1991 (Fortran 90) standards.</p>
+    <p>FortranIsRight &mdash; Deterministic validation based on ANSI X3.9-1978 (FORTRAN 77), ISO/IEC 1539:1991 (Fortran 90), and ISO 7185 (Standard Pascal).</p>
   </footer>
 
   <script src="/app.js"></script>
